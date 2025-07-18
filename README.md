@@ -84,9 +84,7 @@ API REST para un foro de discusión construido con Java y Spring Boot. Permite a
   - <img src="https://img.icons8.com/nolan/30/postman.png" width="20" alt="Postman"/> [Postman](https://www.postman.com/)
   - <img src="https://img.icons8.com/nolan/30/insomnia.png" width="20" alt="Insomnia"/> [Insomnia](https://insomnia.rest/)
 
-### Acceso a Swagger UI
-```bash
-http://localhost:8080/swagger-ui/index.html
+
 
 ## 📦 Dependencias principales en `pom.xml`
 
