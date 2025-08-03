@@ -1,11 +1,16 @@
 package aluracursos.foro.topico;
 
 
+import aluracursos.foro.respuesta.Respuesta;
+import aluracursos.foro.topico.dto.DatosActualizacionTopico;
+import aluracursos.foro.topico.dto.DatosRegistroTopico;
 import aluracursos.foro.usuario.Usuario;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Getter
@@ -29,6 +34,8 @@ public class Topico {
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
     private StatusTopico estado = StatusTopico.NO_RESPONDIDO;
+    @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Respuesta> respuestas = new ArrayList<>();
 
     public Topico(DatosRegistroTopico datos, Usuario autor) {
         this.titulo = datos.titulo();
@@ -52,6 +59,12 @@ public class Topico {
 
         // Actualiza la fecha de creación como "fecha de última actualización"
         this.fechaCreacion = LocalDateTime.now();
+    }
+    public void marcarComoRespondido() {
+        this.estado = StatusTopico.RESPONDIDO;
+    }
+    public void marcarComoSolucionado() {
+        this.estado = StatusTopico.SOLUCIONADO;
     }
 }
 

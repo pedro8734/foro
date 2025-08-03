@@ -1,4 +1,4 @@
-package aluracursos.foro.usuario;
+package aluracursos.foro.usuario.dto;
 
 public record DatosRegistroUsuario(
         String correoElectronico,

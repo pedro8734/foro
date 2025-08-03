@@ -1,5 +1,6 @@
 package aluracursos.foro.infra.exceptions;
 
+import aluracursos.foro.infra.ValidacionException;
 import jakarta.persistence.EntityNotFoundException;
 ;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,11 @@
-package aluracursos.foro.topico;
+package aluracursos.foro.topico.dto;
+
+import aluracursos.foro.topico.StatusTopico;
+import aluracursos.foro.topico.Topico;
 
 import java.time.LocalDateTime;
 
-public record DatosListadoTopico(
+public record DatosRespuestaTopico(
         Long idTopico,
         String titulo,
         String mensaje,
@@ -11,7 +14,7 @@ public record DatosListadoTopico(
         StatusTopico estado
 
 ) {
-    public DatosListadoTopico(Topico topico){
+    public DatosRespuestaTopico(Topico topico) {
         this(
                 topico.getId(),
                 topico.getTitulo(),

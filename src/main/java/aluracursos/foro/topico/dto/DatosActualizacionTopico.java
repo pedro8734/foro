@@ -1,6 +1,4 @@
-package aluracursos.foro.topico;
-
-import jakarta.validation.constraints.NotNull;
+package aluracursos.foro.topico.dto;
 
 public record DatosActualizacionTopico(
          Long id,

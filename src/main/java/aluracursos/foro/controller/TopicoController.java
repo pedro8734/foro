@@ -1,7 +1,12 @@
 package aluracursos.foro.controller;
 
 
+import aluracursos.foro.respuesta.Respuesta;
+import aluracursos.foro.respuesta.RespuestaRepository;
+import aluracursos.foro.respuesta.dto.DatosActualizarRespuesta;
+import aluracursos.foro.respuesta.dto.DatosDetalleRespuesta;
 import aluracursos.foro.topico.*;
+import aluracursos.foro.topico.dto.*;
 import aluracursos.foro.usuario.Usuario;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -13,14 +18,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RestController
@@ -30,6 +34,8 @@ import java.util.Optional;
 public class TopicoController {
      @Autowired
     private TopicoRepository topicoRepository;
+
+
 
     @Transactional
     @PostMapping
@@ -118,5 +124,6 @@ public class TopicoController {
         topico.actualizarInformacion(datos);
         return ResponseEntity.ok(new DatosRespuestaTopico(topico));
     }
+
 
 }

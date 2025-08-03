@@ -33,9 +33,16 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "autor",fetch = FetchType.EAGER)
     private List<Topico> topicos = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private Rol rol = Rol.CLIENTE;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StatusUsuario status = StatusUsuario.ACTIVO;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.rol.name()));
     }
 
     @Override
@@ -66,6 +73,10 @@ public class Usuario implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void eliminar() {
+        this.status=StatusUsuario.ELIMINADO;
     }
 }
 
