@@ -18,38 +18,63 @@ API REST para un foro de discusión construido con Java y Spring Boot. Permite a
 - **Maven** – gestor de dependencias
 - **Postman / Insomnia** – para probar los endpoints
 
+## 📌 Funcionalidades Principales
+
+- Autenticación vía JWT
+- Registro y login de usuarios
+- Roles: `CLIENTE` y `ADMINISTRADOR`
+- Estados de usuario: `ACTIVO`, `ELIMINADO` (borrado lógico)
+- Crear, ver, editar y eliminar tópicos (temas)
+- Crear, ver, editar y eliminar respuestas
+- Estados del tópico: `NO_RESPONDIDO`, `RESPONDIDO`, `SOLUCIONADO`
+- Solo el autor puede editar/borrar sus respuestas
+- Solo el ADMINISTRADOR puede marcar una respuesta como solución
+- Paginación y ordenamiento
 ---
 ## 📡 Endpoints de la API
-| Método | Endpoint                  | Descripción                                | Seguridad         |
-|--------|---------------------------|--------------------------------------------|------------------|
-| POST   | `/login`                  | Autenticación, devuelve token JWT          | Público          |
-| POST   | `/usuarios`               | Registro de nuevo usuario                  | Público          |
-| GET    | `/usuarios`               | Lista todos los usuarios                   | Requiere token   |
-| POST   | `/topicos`                | Crear nuevo tópico                         | Requiere token   |
-| GET    | `/topicos`                | Ver todos los tópicos                      | Requiere token   |
-| GET    | `/topicos/{id}`           | Ver un tópico por su ID                    | Requiere token   |
-| PUT    | `/topicos/{id}`           | Actualizar tópico por su creador           | Requiere token   |
-| DELETE | `/topicos/{id}`           | Eliminar tópico por su creador             | Requiere token   |
-| GET    | `/swagger-ui/index.html`  | Acceder a documentación Swagger            | Público          |
-| GET    | `/v3/api-docs`            | JSON OpenAPI para Swagger                  | Público          |
 
-## ⚙️ Seguridad
+| Método | Endpoint                  | Descripción                                             | Seguridad         |
+|--------|---------------------------|---------------------------------------------------------|-------------------|
+| POST   | `/login`                  | Autenticación (devuelve token JWT)                      | Público           |
+| POST   | `/usuarios`               | Registro de nuevo usuario (rol CLIENTE por defecto)     | Público           |
+| GET    | `/usuarios`               | Lista usuarios activos                                  | Requiere token    |
+| DELETE | `/usuarios/{id}`          | Elimina lógicamente un usuario (solo ADMIN)             | Solo ADMIN        |
+| POST   | `/topicos`                | Crear nuevo tópico                                      | Requiere token    |
+| GET    | `/topicos`                | Ver todos los tópicos activos                           | Requiere token    |
+| GET    | `/topicos/{id}`           | Ver detalle de un tópico                                | Requiere token    |
+| PUT    | `/topicos/{id}`           | Editar tópico (solo autor)                              | Requiere token    |
+| DELETE | `/topicos/{id}`           | Eliminar tópico (solo autor, lógico)                    | Requiere token    |
+| POST   | `/respuestas`             | Crear respuesta (cambia estado del tópico)              | Requiere token    |
+| GET    | `/respuestas`             | Listar respuestas activas (paginado)                    | Requiere token    |
+| GET    | `/respuestas/{id}`        | Detalle de una respuesta                                | Requiere token    |
+| PUT    | `/respuestas/{id}`        | Editar respuesta (solo autor)                           | Requiere token    |
+| DELETE | `/respuestas/{id}`        | Eliminar respuesta (lógico, solo autor)                 | Requiere token    |
+| PATCH  | `/respuestas/{id}/marcar-solucion` | Marcar respuesta como solución (solo ADMIN)           | Solo ADMIN        |
+| GET    | `/swagger-ui/index.html`  | Swagger UI                                              | Público           |
+| GET    | `/v3/api-docs`            | Documentación OpenAPI JSON                              | Público           |
 
-| **Componente**               | **Descripción**                                                                 |
-|------------------------------|---------------------------------------------------------------------------------|
-| **Autenticación**            | Vía JWT (JSON Web Tokens)                                                       |
-| **Política de Sesión**       | Stateless (`SessionCreationPolicy.STATELESS`)                                   |
-| **Filtro Personalizado**     | `SecurityFilter` (valida tokens en cada solicitud)                              |
-| **Endpoints Públicos**       | `/login`, `/usuarios`, `/v3/api-docs/**`, `/swagger-ui.html`, `/swagger-ui/**`  |
-| **Endpoints Protegidos**     | Cualquier otro endpoint requiere token JWT válido                               |
+---
 
-## 🧱 Estructura Básica del Proyecto
+## 🔐 Seguridad y Roles
 
-### 🔹 Entidades
-| **Entidad**  | **Descripción**                                  |
-|--------------|--------------------------------------------------|
-| `Usuario`    | Modelo que representa a los usuarios del sistema |
-| `Topico`     | Modelo para los temas de discusión               |
+| Elemento             | Detalles                                                      |
+|----------------------|---------------------------------------------------------------|
+| JWT                  | Autenticación stateless mediante tokens JWT                   |
+| Roles                | `CLIENTE` y `ADMINISTRADOR`                                   |
+| Borrado lógico       | Usuarios y respuestas no se eliminan de la DB, solo se inactivan |
+| Validación de autor  | Solo el autor puede editar o eliminar su contenido            |
+| Marcar solución      | Solo el `ADMINISTRADOR` puede marcar una respuesta como solución |
+
+---
+
+## 🧱 Entidades del Sistema
+
+| Entidad     | Campos Clave                                                       |
+|-------------|---------------------------------------------------------------------|
+| `Usuario`   | id, nombre, correo, contraseña, rol (enum), estado (`ACTIVO/ELIMINADO`) |
+| `Topico`    | id, titulo, mensaje, autor, estado (`NO_RESPONDIDO`, etc.), respuestas |
+| `Respuesta` | id, mensaje, autor, topico, fechaCreacion, solucion, estado (`ACTIVO/ELIMINADO`) |
+
 
 ### 🔹 Capas de Servicio
 | **Servicio**            | **Función**                                                                 |
