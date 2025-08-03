@@ -1,6 +1,6 @@
 # 🧠 Foro API
 
-API REST para un foro de discusión construido con Java y Spring Boot. Permite a los usuarios registrarse, iniciar sesión, crear temas de discusión (tópicos), y ver usuarios y temas existentes. Esta versión no incluye control de roles (como `ADMIN` o `CLIENTE`), enfocándose en la estructura básica del foro y la autenticación JWT.
+API RESTful para un foro de discusión construido con **Java + Spring Boot**. Ofrece autenticación mediante JWT, gestión de usuarios, temas (tópicos) y respuestas. Incluye control de roles y estados para una gestión avanzada del contenido y usuarios.
 
 ## 🚀 Tecnologías y Herramientas Utilizadas
 
