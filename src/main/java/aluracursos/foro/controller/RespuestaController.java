@@ -9,7 +9,9 @@ import aluracursos.foro.topico.Topico;
 import aluracursos.foro.topico.TopicoRepository;
 import aluracursos.foro.usuario.Usuario;
 import aluracursos.foro.usuario.UsuarioRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/respuestas")
+@RequiredArgsConstructor
+@SecurityRequirement(name = "bearer-key")
 public class RespuestaController {
     @Autowired
     private RespuestaRepository respuestaRepository;
